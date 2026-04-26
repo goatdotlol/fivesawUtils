@@ -1,6 +1,6 @@
-# 🧭 fivesawUtils
+# fivesawUtils
 
-> **A* Pathfinding Library for NeoScripts** — Baritone-inspired, humanized, anti-cheat compliant.
+> **A* Pathfinding Library for NeoScripts** | Baritone-inspired, humanized, anti-cheat compliant.
 
 <div align="center">
 
@@ -16,18 +16,18 @@ Drop one file into your NeoScripts `libs/` folder and navigate anywhere.
 
 ---
 
-## ✨ Features
+## Features
 
 | Feature | Description |
 |---|---|
-| 🔍 **A* Pathfinding** | Full A* with binary heap priority queue |
-| 🧱 **4 Movement Types** | Traverse, Ascend, Descend, Diagonal |
-| 🏃 **Humanized Execution** | Smooth walking with sprint toggling |
-| 🎯 **Flexible Goals** | GoalBlock, GoalNear, GoalXZ, GoalY, GoalComposite |
-| 🛡️ **Anti-Cheat Safe** | Real key presses, no teleports, no blatant movement |
-| 📦 **Single File** | One `fivesawUtils.lua` — no dependencies |
+| [+] **A* Pathfinding** | Full A* with binary heap priority queue |
+| [+] **4 Movement Types** | Traverse, Ascend, Descend, Diagonal |
+| [+] **Humanized Execution** | Smooth walking with sprint toggling |
+| [+] **Flexible Goals** | GoalBlock, GoalNear, GoalXZ, GoalY, GoalComposite |
+| [+] **Anti-Cheat Safe** | Real key presses, no teleports, no blatant movement |
+| [+] **Single File** | One `fivesawUtils.lua` -- no dependencies |
 
-## 📥 Installation
+## Installation
 
 1. Download `fivesawUtils.lua`
 2. Drop it in your NeoScripts `libs/` folder
@@ -36,10 +36,10 @@ Drop one file into your NeoScripts `libs/` folder and navigate anywhere.
 ```
 NeoScripts/
 └── libs/
-    └── fivesawUtils.lua    ← here
+    └── fivesawUtils.lua    <-- here
 ```
 
-## 🚀 Usage
+## Usage
 
 ```lua
 local pathfinder = require("fivesawUtils")
@@ -81,25 +81,18 @@ local g4 = goals.GoalY.new(64)
 local g5 = goals.GoalComposite.new({g1, g2})
 ```
 
-## ⚙️ How It Works
+## How It Works
 
 ```
-┌──────────────┐    ┌───────────┐    ┌──────────────┐
-│   A* Search  │───▶│   Path    │───▶│   Executor   │
-│ (Binary Heap)│    │ (Nodes)   │    │ (Key Presses)│
-└──────────────┘    └───────────┘    └──────────────┘
-       │                                     │
-       ▼                                     ▼
-┌──────────────┐                    ┌──────────────┐
-│  Movement    │                    │  Renderer    │
-│  Generators  │                    │  (Debug)     │
-│ ┌──────────┐ │                    └──────────────┘
-│ │ Traverse │ │
-│ │ Ascend   │ │
-│ │ Descend  │ │
-│ │ Diagonal │ │
-│ └──────────┘ │
-└──────────────┘
+[ A* Search ] ---> [ Path ] ---> [ Executor ]
+(Binary Heap)      (Nodes)       (Key Presses)
+      |                                |
+      v                                v
+[ Movement Generators ]          [ Renderer ]
+  - Traverse                     (Debug Overlay)
+  - Ascend
+  - Descend
+  - Diagonal
 ```
 
 1. **A* Search** explores nodes using a binary heap, generating moves via 4 movement types
@@ -107,31 +100,31 @@ local g5 = goals.GoalComposite.new({g1, g2})
 3. **Executor** walks the path using real key presses (WASD + sprint + jump)
 4. **Renderer** optionally draws the path in-world for debugging
 
-## 🔧 Movement Types
+## Movement Types
 
 | Type | Action | Cost |
 |---|---|---|
 | **Traverse** | Walk forward 1 block | 1.0 |
 | **Ascend** | Jump up 1 block + forward | 2.0 |
 | **Descend** | Drop down 1-3 blocks | 1.0-3.0 |
-| **Diagonal** | Walk diagonally | √2 ≈ 1.414 |
+| **Diagonal** | Walk diagonally | ~1.414 |
 
-## 🛡️ Anti-Cheat Design
+## Anti-Cheat Design
 
-- ✅ All movement via `input.setPressed*` (real key simulation)
-- ✅ Sprint toggling with humanized timing
-- ✅ Jump only when needed (block above or ascend)
-- ✅ No teleportation, no velocity modification
-- ✅ Natural-looking pathfinding (no perfect straight lines)
+* [x] All movement via `input.setPressed*` (real key simulation)
+* [x] Sprint toggling with humanized timing
+* [x] Jump only when needed (block above or ascend)
+* [x] No teleportation, no velocity modification
+* [x] Natural-looking pathfinding (no perfect straight lines)
 
-## 📄 License
+## License
 
-MIT — Free to use, modify, and distribute.
+MIT -- Free to use, modify, and distribute.
 
 ---
 
 <div align="center">
 
-**Made by [fivesaw](https://github.com/goatdotlol)** ⛏️
+**Made by [fivesaw](https://github.com/goatdotlol)**
 
 </div>
