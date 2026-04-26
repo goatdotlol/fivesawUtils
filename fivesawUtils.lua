@@ -2318,6 +2318,8 @@ __bundle_preload["libs/fivetone/init"] = function()
     local executor   = nil     -- PathExecutor instance
     local costs      = nil     -- ActionCosts instance
     
+    Fivetone.onCompleteCallback = nil
+    
     -- ── Configuration ───────────────────────────────────────────────
     local cfg = {
         allowSprint    = true,
@@ -2493,6 +2495,11 @@ __bundle_preload["libs/fivetone/init"] = function()
         if not silent then
             player.addMessage("§c[Fivetone] Cancelled.")
         end
+        if Fivetone.onCompleteCallback then
+            local cb = Fivetone.onCompleteCallback
+            Fivetone.onCompleteCallback = nil
+            cb(false)
+        end
     end
     
     --- Starts pathfinding to the current goal.
@@ -2549,6 +2556,11 @@ __bundle_preload["libs/fivetone/init"] = function()
                 state = Fivetone.State.FAILED
                 statusMsg = "No path found (" .. astarInst.nodesExplored .. " nodes)"
                 player.addMessage("§c[Fivetone] No path found! " .. statusMsg)
+                if Fivetone.onCompleteCallback then
+                    local cb = Fivetone.onCompleteCallback
+                    Fivetone.onCompleteCallback = nil
+                    cb(false)
+                end
             end
         end)
     end
@@ -2557,8 +2569,10 @@ __bundle_preload["libs/fivetone/init"] = function()
     --- @param x number
     --- @param y number
     --- @param z number
-    function Fivetone.goto(x, y, z)
+    --- @param onComplete function Callback when arrived/failed
+    function Fivetone.navigateTo(x, y, z, onComplete)
         ensureInit()
+        Fivetone.onCompleteCallback = onComplete
         goal = Goals.block(x, y, z, costs)
         Fivetone.path()
     end
@@ -2566,8 +2580,10 @@ __bundle_preload["libs/fivetone/init"] = function()
     --- Shortcut: set GoalXZ and start pathing.
     --- @param x number
     --- @param z number
-    function Fivetone.gotoXZ(x, z)
+    --- @param onComplete function Callback when arrived/failed
+    function Fivetone.navigateToXZ(x, z, onComplete)
         ensureInit()
+        Fivetone.onCompleteCallback = onComplete
         goal = Goals.xz(x, z, costs)
         Fivetone.path()
     end
@@ -2590,9 +2606,19 @@ __bundle_preload["libs/fivetone/init"] = function()
                 state = Fivetone.State.DONE
                 statusMsg = "Goal reached!"
                 player.addMessage("§a§l[Fivetone] Goal reached!")
+                if Fivetone.onCompleteCallback then
+                    local cb = Fivetone.onCompleteCallback
+                    Fivetone.onCompleteCallback = nil
+                    cb(true)
+                end
             else
                 state = Fivetone.State.DONE
                 statusMsg = "End of path reached"
+                if Fivetone.onCompleteCallback then
+                    local cb = Fivetone.onCompleteCallback
+                    Fivetone.onCompleteCallback = nil
+                    cb(false)
+                end
             end
         elseif result == "stuck" then
             player.addMessage("§e[Fivetone] Stuck! Recalculating...")
